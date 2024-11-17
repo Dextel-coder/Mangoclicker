@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mango Clicker</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #ffefcc;
+    }
+    img {
+      cursor: pointer;
+      width: 150px;
+      margin: 20px;
+    }
+    .stats, .shop {
+      margin: 20px auto;
+      max-width: 300px;
+      background: #fff3e0;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mango Clicker</h1>
+  <p>Score: <span id="score">0</span></p>
+  <img src="https://via.placeholder.com/150?text=Mango" id="mango" alt="Mango">
+  
+  <div class="stats">
+    <h3>Stats</h3>
+    <p>Points per Click: <span id="ppc">1</span></p>
+    <p>Points per Second: <span id="pps">0</span></p>
+  </div>
+
+  <div class="shop">
+    <h3>Shop</h3>
+    <button id="upgrade-click">Upgrade Click (+1 PPC) - Cost: 50</button>
+    <button id="buy-tree">Buy Mango Tree (+1 PPS) - Cost: 100</button>
+  </div>
+
+  <script>
+    let score = 0;
+    let pointsPerClick = 1;
+    let pointsPerSecond = 0;
+
+    let upgradeClickCost = 50;
+    let mangoTreeCost = 100;
+
+    const scoreDisplay = document.getElementById("score");
+    const ppcDisplay = document.getElementById("ppc");
+    const ppsDisplay = document.getElementById("pps");
+    const mango = document.getElementById("mango");
+    const upgradeClickButton = document.getElementById("upgrade-click");
+    const buyTreeButton = document.getElementById("buy-tree");
+
+    // Mango click event
+    mango.addEventListener("click", () => {
+      score += pointsPerClick;
+      updateDisplay();
+    });
+
+    // Upgrade click button
+    upgradeClickButton.addEventListener("click", () => {
+      if (score >= upgradeClickCost) {
+        score -= upgradeClickCost;
+        pointsPerClick += 1;
+        upgradeClickCost *= 2;
+        upgradeClickButton.textContent = `Upgrade Click (+1 PPC) - Cost: ${upgradeClickCost}`;
+        updateDisplay();
+      } else {
+        alert("Not enough points!");
+      }
+    });
+
+    // Buy Mango Tree button
+    buyTreeButton.addEventListener("click", () => {
+      if (score >= mangoTreeCost) {
+        score -= mangoTreeCost;
+        pointsPerSecond += 1;
+        mangoTreeCost = Math.round(mangoTreeCost * 1.5);
+        buyTreeButton.textContent = `Buy Mango Tree (+1 PPS) - Cost: ${mangoTreeCost}`;
+        updateDisplay();
+      } else {
+        alert("Not enough points!");
+      }
+    });
+
+    // Auto-increment score every second
+    setInterval(() => {
+      score += pointsPerSecond;
+      updateDisplay();
+    }, 1000);
+
+    // Update display function
+    function updateDisplay() {
+      scoreDisplay.textContent = score;
+      ppcDisplay.textContent = pointsPerClick;
+      ppsDisplay.textContent = pointsPerSecond;
+    }
+  </script>
+</body>
+</html>
